@@ -2,6 +2,9 @@
 
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
+using std::cout;
+using std::endl;
+using std::vector;
 
 /* 
  * Please note that the Eigen library does not initialize 
