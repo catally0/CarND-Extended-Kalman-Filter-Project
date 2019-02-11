@@ -88,19 +88,19 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float rho = measurement_pack.raw_measurements_[0];
       float phi = measurement_pack.raw_measurements_[1];
       float rho_dot = measurement_pack.raw_measurements_[2];
-      kf_.x_ << rho*sin(phi),
-                rho*cos(phi),
-                rho_dot*sin(phi),
-                rho_dot*cos(phi);
+      ekf_.x_ << rho*sin(phi),
+                 rho*cos(phi),
+                 rho_dot*sin(phi),
+                 rho_dot*cos(phi);
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       // TODO: Initialize state.
       cout<<"LIDAR:"<<endl;
-      cout<<measurement_pack.raw_measurements_[0]<<","<<measurement_pack.raw_measurements_[1]<<<<endl;
-      kf_.x_ << measurement_pack.raw_measurements_[0], 
-                measurement_pack.raw_measurements_[1], 
-                0, 
-                0;
+      cout<<measurement_pack.raw_measurements_[0]<<","<<measurement_pack.raw_measurements_[1]<<endl;
+      ekf_.x_ << measurement_pack.raw_measurements_[0], 
+                 measurement_pack.raw_measurements_[1], 
+                 0, 
+                 0;
     }
 
     // done initializing, no need to predict or update
