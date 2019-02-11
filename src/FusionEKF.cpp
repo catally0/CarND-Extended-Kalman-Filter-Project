@@ -37,6 +37,25 @@ FusionEKF::FusionEKF() {
    * TODO: Set the process and measurement noises
    */
 
+  //initialize variables and matrices (x, F, H_laser, H_jacobian, P, etc.)
+  ekf_.x_ = VectorXd(4);
+
+  ekf_.F_ = MatrixXd(4, 4);
+  ekf_.F_ << 1, 0, 1, 0,
+             0, 1, 0, 1,
+             0, 0, 1, 0,
+             0, 0, 0, 1;
+  
+  H_laser_ << 1, 0, 0, 0,
+              0, 1, 0, 0;
+
+  ekf_.P_ = MatrixXd(4, 4);
+
+  ekf_.Q_ = MatrixXd(4, 4);
+  
+  //given process noise values
+  noise_ax_ = 9;
+  noise_ay_ = 9;
 
 }
 
@@ -64,11 +83,24 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     if (measurement_pack.sensor_type_ == MeasurementPackage::RADAR) {
       // TODO: Convert radar from polar to cartesian coordinates 
       //         and initialize state.
-
+      cout<<"RADAR:"<<endl;
+      cout<<measurement_pack.raw_measurements_[0]<<","<<measurement_pack.raw_measurements_[1]<<","<<measurement_pack.raw_measurements_[2]<<endl;
+      float rho = measurement_pack.raw_measurements_[0];
+      float phi = measurement_pack.raw_measurements_[1];
+      float rho_dot = measurement_pack.raw_measurements_[2];
+      kf_.x_ << rho*sin(phi),
+                rho*cos(phi),
+                rho_dot*sin(phi),
+                rho_dot*cos(phi);
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
       // TODO: Initialize state.
-
+      cout<<"LIDAR:"<<endl;
+      cout<<measurement_pack.raw_measurements_[0]<<","<<measurement_pack.raw_measurements_[1]<<<<endl;
+      kf_.x_ << measurement_pack.raw_measurements_[0], 
+                measurement_pack.raw_measurements_[1], 
+                0, 
+                0;
     }
 
     // done initializing, no need to predict or update
