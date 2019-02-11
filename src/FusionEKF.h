@@ -39,8 +39,8 @@ class FusionEKF {
   long long previous_timestamp_;
 
   // process noise
-  float noise_ax_;
-  float noise_ay_;
+  float noise_ax;
+  float noise_ay;
 
   // tool object used to compute Jacobian and RMSE
   Tools tools;
