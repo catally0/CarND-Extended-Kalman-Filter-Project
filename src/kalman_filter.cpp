@@ -65,9 +65,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   z_pred << rho,
             atan2(x_[1], x_[0]),
             (x_[0]*x_[2]+x_[1]*x_[3])/rho;
-  cout<<"Measurement value:"<<z[0]<<","<<z[1]<<","<<z[2]<<endl;
-  cout<<"Predict value:"<<z_pred[0]<<","<<z_pred[1]<<","<<z_pred[2]<<endl;
-
+  
   VectorXd y = z - z_pred;
   // Normalize the angle
   while(y[1] > pi) {
