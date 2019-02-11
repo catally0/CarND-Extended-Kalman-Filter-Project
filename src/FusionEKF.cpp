@@ -54,8 +54,8 @@ FusionEKF::FusionEKF() {
   ekf_.Q_ = MatrixXd(4, 4);
   
   //given process noise values
-  noise_ax_ = 9;
-  noise_ay_ = 9;
+  noise_ax = 9;
+  noise_ay = 9;
 
 }
 
