@@ -1,6 +1,8 @@
 #include "kalman_filter.h"
 #include <iostream>
 
+#define pi 3.1415926
+
 using Eigen::MatrixXd;
 using Eigen::VectorXd;
 using std::cout;
@@ -67,6 +69,13 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   cout<<"Predict value:"<<z_pred[0]<<","<<z_pred[1]<<","<<z_pred[2]<<endl;
 
   VectorXd y = z - z_pred;
+  // Normalize the angle
+  while(y[1] > 2*pi) {
+    y[1] -= 2*pi;
+  }
+  while(y[1] < -2*pi) {
+    y[1] += 2*pi;
+  }
   MatrixXd Ht = H_.transpose();
   MatrixXd S = H_ * P_ * Ht + R_;
   MatrixXd Si = S.inverse();
